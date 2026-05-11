@@ -4,6 +4,7 @@ import Slider from "react-slick";
 import Skeleton from "../UI/Skeleton";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import axios from "axios";
 
 const NextArrow = ({ onClick }) => {
   return (
@@ -50,12 +51,12 @@ const HotCollections = () => {
   };
 
   useEffect(() => {
-    fetch(
-      "https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections",
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        setCollections(data);
+    axios
+      .get(
+        "https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections",
+      )
+      .then((response) => {
+        setCollections(response.data);
         setLoading(false);
       });
   }, []);
