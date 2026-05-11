@@ -51,11 +51,11 @@ const HotCollections = () => {
 
   useEffect(() => {
     fetch(
-      "https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections"
+      "https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections",
     )
       .then((response) => response.json())
       .then((data) => {
-        setCollections(data.slice(0, 6));
+        setCollections(data);
         setLoading(false);
       });
   }, []);
@@ -74,11 +74,7 @@ const HotCollections = () => {
 
             {[...Array(4)].map((_, index) => (
               <div className="col-lg-3" key={index}>
-                <Skeleton
-                  width="100%"
-                  height="350px"
-                  borderRadius="12px"
-                />
+                <Skeleton width="100%" height="350px" borderRadius="12px" />
               </div>
             ))}
           </div>
