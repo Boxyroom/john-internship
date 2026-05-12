@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Slider from "react-slick";
 import Skeleton from "../UI/Skeleton";
+import CountdownTimer from "../UI/CountdownTimer";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -25,7 +26,6 @@ const PrevArrow = ({ onClick }) => {
 const NewItems = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [time, setTime] = useState(Date.now());
 
   const settings = {
     dots: false,
@@ -71,28 +71,6 @@ const NewItems = () => {
         setLoading(false);
       });
   }, []);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTime(Date.now());
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, []);
-
-  const getTimeRemaining = (expiryDate) => {
-    const total = new Date(expiryDate) - time;
-
-    if (total <= 0) {
-      return "";
-    }
-
-    const hours = Math.floor(total / 1000 / 60 / 60);
-    const minutes = Math.floor((total / 1000 / 60) % 60);
-    const seconds = Math.floor((total / 1000) % 60);
-
-    return `${hours}h ${minutes}m ${seconds}s`;
-  };
 
   if (loading) {
     return (
@@ -149,11 +127,7 @@ const NewItems = () => {
                       </Link>
                     </div>
 
-                    {getTimeRemaining(item.expiryDate) && (
-                      <div className="de_countdown">
-                        {getTimeRemaining(item.expiryDate)}
-                      </div>
-                    )}
+                    <CountdownTimer expiryDate={item.expiryDate} />
 
                     <div className="nft__item_wrap">
                       <div className="nft__item_extra">
