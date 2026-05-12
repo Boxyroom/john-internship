@@ -36,7 +36,13 @@ const HotCollections = () => {
     prevArrow: <PrevArrow />,
     responsive: [
       {
-        breakpoint: 992,
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+        },
+      },
+      {
+        breakpoint: 768,
         settings: {
           slidesToShow: 2,
         },
@@ -74,8 +80,8 @@ const HotCollections = () => {
             </div>
 
             {[...Array(4)].map((_, index) => (
-              <div className="col-lg-3" key={index}>
-                <Skeleton width="100%" height="350px" borderRadius="12px" />
+              <div className="col-lg-3 col-md-6" key={index}>
+                <Skeleton width="100%" height="320px" borderRadius="12px" />
               </div>
             ))}
           </div>
@@ -98,10 +104,10 @@ const HotCollections = () => {
           <div className="col-lg-12">
             <Slider {...settings}>
               {collections.map((collection) => (
-                <div key={collection.id}>
+                <div key={collection.nftId}>
                   <div className="nft_coll">
                     <div className="nft_wrap">
-                      <Link to="/item-details">
+                      <Link to={`/item-details/${collection.nftId}`}>
                         <img
                           src={collection.nftImage}
                           className="lazy img-fluid"
@@ -111,20 +117,22 @@ const HotCollections = () => {
                     </div>
 
                     <div className="nft_coll_pp">
-                      <Link to="/author">
+                      <Link to={`/author/${collection.authorId}`}>
                         <img
                           className="lazy pp-coll"
                           src={collection.authorImage}
                           alt={collection.authorName}
                         />
+
+                        <i className="fa fa-check"></i>
                       </Link>
-                      <i className="fa fa-check"></i>
                     </div>
 
                     <div className="nft_coll_info">
-                      <Link to="/explore">
+                      <Link to={`/item-details/${collection.nftId}`}>
                         <h4>{collection.title}</h4>
                       </Link>
+
                       <span>ERC-{collection.code}</span>
                     </div>
                   </div>

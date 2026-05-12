@@ -33,19 +33,17 @@ const NewItems = () => {
     speed: 500,
     slidesToShow: 4,
     slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 3000,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
     responsive: [
       {
-        breakpoint: 1200,
+        breakpoint: 1024,
         settings: {
           slidesToShow: 3,
         },
       },
       {
-        breakpoint: 992,
+        breakpoint: 768,
         settings: {
           slidesToShow: 2,
         },
@@ -62,7 +60,7 @@ const NewItems = () => {
   useEffect(() => {
     axios
       .get(
-        "https://us-central1-nft-cloud-functions.cloudfunctions.net/newItems"
+        "https://us-central1-nft-cloud-functions.cloudfunctions.net/newItems",
       )
       .then((response) => {
         setItems(response.data);
@@ -110,11 +108,7 @@ const NewItems = () => {
 
             {[...Array(4)].map((_, index) => (
               <div className="col-lg-3" key={index}>
-                <Skeleton
-                  width="100%"
-                  height="450px"
-                  borderRadius="12px"
-                />
+                <Skeleton width="100%" height="450px" borderRadius="12px" />
               </div>
             ))}
           </div>
@@ -184,7 +178,7 @@ const NewItems = () => {
                         </div>
                       </div>
 
-                      <Link to={`/item-details/${item.id}`}>
+                      <Link to={`/item-details/${item.nftId}`}>
                         <img
                           src={item.nftImage}
                           className="lazy nft__item_preview"
@@ -194,13 +188,11 @@ const NewItems = () => {
                     </div>
 
                     <div className="nft__item_info">
-                      <Link to={`/item-details/${item.id}`}>
+                      <Link to={`/item-details/${item.nftId}`}>
                         <h4>{item.title}</h4>
                       </Link>
 
-                      <div className="nft__item_price">
-                        {item.price} ETH
-                      </div>
+                      <div className="nft__item_price">{item.price} ETH</div>
 
                       <div className="nft__item_like">
                         <i className="fa fa-heart"></i>
