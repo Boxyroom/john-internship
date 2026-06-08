@@ -9,6 +9,8 @@ const Author = () => {
   const { authorId } = useParams();
 
   const [author, setAuthor] = useState(null);
+  const [isFollowing, setIsFollowing] = useState(false);
+  const [followers, setFollowers] = useState(100);
 
   useEffect(() => {
     axios
@@ -163,11 +165,24 @@ const Author = () => {
 
                   <div className="profile_follow de-flex">
                     <div className="de-flex-col">
-                      <div className="profile_follower">100 followers</div>
+                      <div className="profile_follower">
+                        {followers} followers
+                      </div>
 
-                      <Link to="#" className="btn-main">
-                        Follow
-                      </Link>
+                      <button
+                        className="btn-main"
+                        onClick={() => {
+                          if (isFollowing) {
+                            setFollowers(followers - 1);
+                          } else {
+                            setFollowers(followers + 1);
+                          }
+
+                          setIsFollowing(!isFollowing);
+                        }}
+                      >
+                        {isFollowing ? "Unfollow" : "Follow"}
+                      </button>
                     </div>
                   </div>
                 </div>
