@@ -8,6 +8,7 @@ const ExploreItems = () => {
   const [visibleItems, setVisibleItems] = useState(8);
   const [filter, setFilter] = useState("");
 
+  useEffect(() => {
   async function fetchExploreItems() {
     setLoading(true);
 
@@ -15,11 +16,10 @@ const ExploreItems = () => {
       const response = await fetch(
         `https://us-central1-nft-cloud-functions.cloudfunctions.net/explore${
           filter ? `?filter=${filter}` : ""
-        }`,
+        }`
       );
 
       const data = await response.json();
-      console.log(data[0]);
 
       setExploreData(data);
     } catch (error) {
@@ -29,9 +29,9 @@ const ExploreItems = () => {
     setLoading(false);
   }
 
-  useEffect(() => {
-    fetchExploreItems();
-  }, [filter]);
+  fetchExploreItems();
+}, [filter]);
+
   return (
     <>
       <div>

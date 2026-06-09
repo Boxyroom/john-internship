@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 
 const CountdownTimer = ({ expiryDate }) => {
-  const calculateTimeLeft = () => {
+  const calculateTimeLeft = useCallback(() => {
     const difference = new Date(expiryDate) - new Date();
 
     if (difference <= 0) {
@@ -13,7 +13,7 @@ const CountdownTimer = ({ expiryDate }) => {
     const seconds = Math.floor((difference % (1000 * 60)) / 1000);
 
     return `${hours}h ${minutes}m ${seconds}s`;
-  };
+  }, [expiryDate]);
 
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
@@ -23,9 +23,9 @@ const CountdownTimer = ({ expiryDate }) => {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [calculateTimeLeft]);
 
-  if (!timeLeft || timeLeft === "") {
+  if (!timeLeft) {
     return null;
   }
 
