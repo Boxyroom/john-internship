@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AuthorBanner from "../images/author_banner.jpg";
 import AuthorItems from "../components/author/AuthorItems";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import Skeleton from "../components/UI/Skeleton";
 
@@ -10,22 +10,16 @@ const Author = () => {
 
   const [author, setAuthor] = useState(null);
   const [isFollowing, setIsFollowing] = useState(false);
-  const [followers, setFollowers] = useState(100);
+  const [followers, setFollowers] = useState(0);
 
   useEffect(() => {
     axios
       .get(
-        "https://us-central1-nft-cloud-functions.cloudfunctions.net/topSellers",
+        `https://us-central1-nft-cloud-functions.cloudfunctions.net/authors?author=${authorId}`,
       )
       .then((response) => {
-        const foundAuthor = response.data.find(
-          (item) => String(item.authorId) === authorId,
-        );
-
-        console.log(authorId);
-        console.log(foundAuthor);
-
-        setAuthor(foundAuthor);
+        setAuthor(response.data);
+        setFollowers(response.data.followers);
       });
   }, [authorId]);
 
@@ -145,14 +139,11 @@ const Author = () => {
                           {author.authorName || "Unknown Creator"}
 
                           <span className="profile_username">
-                            @
-                            {(author.authorName || "creator")
-                              .toLowerCase()
-                              .replace(/\s/g, "")}
+                            @{author.tag}
                           </span>
 
                           <span id="wallet" className="profile_wallet">
-                            Creator ID: {author.authorId}
+                            {author.address}
                           </span>
 
                           <button id="btn_copy" title="Copy Text">
