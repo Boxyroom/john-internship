@@ -166,7 +166,7 @@ const ExploreItems = () => {
           </div>
         ))}
       {visibleItems < exploreData.length && (
-        <div className="col-md-12 text-center">
+        <div className="col-md-12 text-center" data-aos="fade-up">
           <button
             id="loadmore"
             className="btn-main lead"
